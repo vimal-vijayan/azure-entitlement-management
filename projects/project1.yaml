@@ -1,0 +1,172 @@
+---
+ProjectName: project1
+SubscriptionName: "sub-cloud-main-01"
+owner: "vimalvijayan@optimuspro.de"
+SecurityGroups:
+- pimSecurityGroups:
+  - project1-pim-sg-owner
+  - project1-pim-sg-contributor
+  - project1-pim-sg-reader
+  - project1-pim-sg-azure-devops
+  - project1-pim-sg-azure-devops-owner
+- catalogSecurityGroups:
+  - project1-accesspackage-requestor
+  - project1-accesspackage-owner
+
+Catalog:
+  name: "HDDDK-Catalog"
+  catalogResources:
+  - SecurityGroups:
+    - project1-pim-sg-owner
+    - project1-pim-sg-contributor
+    - project1-pim-sg-reader
+    - project1-pim-ssg-azure-devops
+  AccessPackages:
+  - name: owner_package
+    SecurityGroups:
+    - project1-pim-sg-owner
+    - project1-pim-sg-contributor
+    - project1-pim-sg-reader
+    accessPolicy:
+    - policyName: project1-requestor
+      description: Demo policy for requestor
+      duration: 180
+      requestorSettings:
+      - scopeType: SpecificDirectorySubjects
+        requestsAccepted: 'true'
+        requestor:
+        - subjectType: groupMembers
+          group: project1-accesspackage-requestor
+
+      approverSettings:
+      - approvalRequired: true
+        requestorJustificationRequired: true
+        approvalStage:
+          approvalTimeoutInDays: 14
+          primaryApprover:
+            subjectType: groupMembers
+            group: project1-accesspackage-owner
+
+      assignment_review_settings:
+      - enabled: true
+        reviewFrequency: monthly
+        durationInDays: 1
+        reviewType: Reviewers
+        accessReviewTimeoutBehavior: removeAccess
+        reviewer:
+        - group: project1-accesspackage-owner
+          subject_type: groupMembers
+
+    - policyName: "assignment"
+      description: "Demo policy for assignment"
+      duration: 180
+
+      assignment_review_settings:
+      - enabled: true
+        reviewFrequency: monthly
+        durationInDays: 1
+        reviewType: Reviewers
+        accessReviewTimeoutBehavior: keepAccess
+        reviewer: 
+        - group: project1-accesspackage-owner
+          subject_type: groupMembers
+
+  - name: contributor_package
+    SecurityGroups:
+    - project1-pim-sg-contributor
+    - project1-pim-sg-reader
+    accessPolicy:
+
+    - policyName: requestor
+      description: Demo policy for requestor
+      duration: 180
+
+      requestorSettings:
+      - scopeType: SpecificDirectorySubjects
+        requestsAccepted: 'true'
+        requestor:
+        - subjectType: groupMembers
+          group: project1-accesspackage-requestor
+
+      approverSettings:
+      - approvalRequired: true
+        requestorJustificationRequired: true
+        approvalStage:
+          approvalTimeoutInDays: 14
+          primaryApprover:
+            subjectType: groupMembers
+            group: project1-accesspackage-owner
+
+      assignment_review_settings:
+      - enabled: true
+        reviewFrequency: monthly
+        durationInDays: 1
+        reviewType: Reviewers
+        accessReviewTimeoutBehavior: removeAccess
+        reviewer:
+        - group: project1-accesspackage-owner
+          subject_type: groupMembers
+
+    - policyName: "assignment"
+      description: "Demo policy for assignment"
+      duration: 180
+
+      assignment_review_settings:
+      - enabled: true
+        reviewFrequency: monthly
+        durationInDays: 1
+        reviewType: Reviewers
+        accessReviewTimeoutBehavior: keepAccess
+        reviewer: 
+        - group: project1-accesspackage-owner
+          subject_type: groupMembers
+
+
+  - name: reader_package
+    SecurityGroups:
+    - project1-pim-sg-reader
+    accessPolicy:
+
+    - policyName: requestor
+      description: Demo policy for requestor
+      duration: 180
+
+      requestorSettings:
+      - scopeType: SpecificDirectorySubjects
+        requestsAccepted: 'true'
+        requestor:
+        - subjectType: groupMembers
+          group: project1-accesspackage-requestor
+
+      approverSettings:
+      - approvalRequired: true
+        requestorJustificationRequired: true
+        approvalStage:
+          approvalTimeoutInDays: 14
+          primaryApprover:
+            subjectType: groupMembers
+            group: project1-accesspackage-owner
+
+      assignment_review_settings:
+      - enabled: true
+        reviewFrequency: monthly
+        durationInDays: 1
+        reviewType: Reviewers
+        accessReviewTimeoutBehavior: removeAccess
+        reviewer:
+        - group: project1-accesspackage-owner
+          subject_type: groupMembers
+
+    - policyName: "assignment"
+      description: "Demo policy for assignment"
+      duration: 180
+
+      assignment_review_settings:
+      - enabled: true
+        reviewFrequency: monthly
+        durationInDays: 1
+        reviewType: Reviewers
+        accessReviewTimeoutBehavior: keepAccess
+        reviewer: 
+        - group: project1-accesspackage-owner
+          subject_type: groupMembers
