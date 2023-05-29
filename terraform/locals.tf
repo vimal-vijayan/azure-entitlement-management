@@ -8,7 +8,7 @@ locals {
   access_packages         = { for k, v in local.em.Catalog.AccessPackages : v.name => v }
   access_packages_map = flatten([for k, v in local.access_packages :
     {
-      catalog_id              = azuread_access_package_catalog.catalog.id,
+      catalog_id              = data.azuread_access_package_catalog.catalog.id,
       package_name            = v.name,
       security_groups         = v.SecurityGroups,
       requestor_access_policy = v.accessPolicy

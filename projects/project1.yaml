@@ -14,7 +14,7 @@ SecurityGroups:
   - project1-accesspackage-owner
 
 Catalog:
-  name: "HDDDK-Catalog"
+  name: "ES Entitlement Management"
   catalogResources:
   - SecurityGroups:
     - project1-pim-sg-owner
