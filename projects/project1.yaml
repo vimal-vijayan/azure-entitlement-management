@@ -1,6 +1,6 @@
 ---
 ProjectName: project1
-SubscriptionName: "sub-cloud-main-01"
+SubscriptionID: "4bee0sdf9-f7ae-4469-a36e-dc51068ssda2"
 owner: "vimalvijayan@optimuspro.de"
 SecurityGroups:
 - pimSecurityGroups:
@@ -12,6 +12,21 @@ SecurityGroups:
 - catalogSecurityGroups:
   - project1-accesspackage-requestor
   - project1-accesspackage-owner
+
+PimAssignments:
+- RoleDefinition: "owner"
+  pimSecurityGroups:
+  - project1-pim-sg-owner
+
+- RoleDefinition: "contributor"
+  pimSecurityGroups:
+  - project1-pim-sg-contributor
+  - project1-pim-sg-azure-devops
+
+- RoleDefinition: "reader"
+  pimSecurityGroups:
+  - project1-pim-sg-reader
+
 
 Catalog:
   name: "ES Entitlement Management"

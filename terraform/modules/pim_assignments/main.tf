@@ -12,7 +12,7 @@ resource "azapi_resource" "pim_assignment_sub" {
     properties = {
       principalId      = var.principal_id
       requestType      = var.request_type
-      roleDefinitionId = "${data.azurerm_subscription.subscription.id}${var.role_definition_id}"
+      roleDefinitionId = "${var.role_definition_id}"
       scheduleInfo     = {
         expiration = {
           duration    = "P365D"

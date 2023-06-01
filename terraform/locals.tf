@@ -1,6 +1,7 @@
 locals {
 
   em                      = yamldecode(file("../projects/${var.yaml_file}"))
+  subscription_id         = local.em.SubscriptionID
   catalog_name            = local.em.Catalog.name
   owner_email             = local.em.owner
   pim_security_groups     = flatten([for k, v in local.em.SecurityGroups : values(v) if one(keys(v)[*]) == "pimSecurityGroups"])
@@ -23,5 +24,7 @@ locals {
       cat_association_id = azuread_access_package_resource_catalog_association.group_catalog_association[b].id
     }
   ]])
+
+  pim_assignments = flatten([ for k,v in local.em.PimAssignments : [ for a,b in v.pimSecurityGroups : { role_name = v.RoleDefinition, pim_security_group : b } ]])
 
 }

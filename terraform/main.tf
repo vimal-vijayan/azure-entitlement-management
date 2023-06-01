@@ -119,3 +119,23 @@ resource "azuread_access_package_resource_package_association" "owner_ap_resourc
   access_package_id               = each.value.package_id
   catalog_resource_association_id = each.value.cat_association_id
 }
+
+data "azurerm_subscription" "primary" {
+  subscription_id = local.subscription_id
+}
+
+# Pim role definitions
+data "azurerm_role_definition" "pim-role-definitions" {
+  for_each = { for k, v in local.pim_assignments : v.pim_security_group => v }
+  name     = each.value.role_name
+  scope    = data.azurerm_subscription.primary.id
+}
+
+# PIM Role assignments
+module "pim_assignments" {
+  for_each           = { for k, v in local.pim_assignments : v.pim_security_group => v }
+  source             = "./modules/pim_assignments"
+  subscription_id    = local.subscription_id
+  role_definition_id = data.azurerm_role_definition.pim-role-definitions[each.key].id
+  principal_id       = azuread_group.pim_ad_groups[each.key].object_id
+}
